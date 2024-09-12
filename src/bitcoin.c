@@ -113,8 +113,8 @@ out:
 	return val;
 }
 
-// static const char *gbt_req = "{\"method\": \"getblocktemplate\", \"params\": [{\"capabilities\": [\"coinbasetxn\", \"workid\", \"coinbase/append\"], \"rules\" : [\"segwit\"]}]}\n";
-static const char *gbt_req = "{\"method\": \"getblocktemplate\", \"params\": [{\"rules\": [\"segwit\"]}]}\n";
+static const char *gbt_req = "{\"method\": \"getblocktemplate\", \"params\": [{\"capabilities\": [\"coinbasetxn\", \"workid\", \"coinbase/append\"], \"rules\" : [\"segwit\"]}]}\n";
+z
 /* Request getblocktemplate from bitcoind already connected with a connsock_t
  * and then summarise the information to the most efficient set of data
  * required to assemble a mining template, storing it in a gbtbase_t structure */
