@@ -113,8 +113,7 @@ out:
 	return val;
 }
 
-// static const char *gbt_req = "{\"method\": \"getblocktemplate\", \"params\": [{\"capabilities\": [\"coinbasetxn\", \"workid\", \"coinbase/append\"], \"rules\" : [\"segwit\"]}]}\n";
-static const char *gbt_req = "{\"method\": \"getblocktemplate\", \"params\": [{\"rules\": [\"segwit\"]}]}\n";
+static const char *gbt_req = "{\"method\": \"getblocktemplate\", \"params\": [{\"capabilities\": [\"coinbasetxn\", \"workid\", \"coinbase/append\"], \"rules\" : [\"segwit\"]}]}\n";
 
 /* Request getblocktemplate from bitcoind already connected with a connsock_t
  * and then summarise the information to the most efficient set of data
@@ -134,8 +133,6 @@ bool gen_gbtbase(connsock_t *cs, gbtbase_t *gbt)
 	int height;
 	int i;
 	bool ret = false;
-
-	LOGWARNING("getblocktemplate: %s", gbt_req);
 
 	val = json_rpc_call(cs, gbt_req);
 	if (!val) {
