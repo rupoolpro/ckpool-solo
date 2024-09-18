@@ -5682,7 +5682,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		optimal = lround(dsps * 15.0);
 		LOGINFO("if mindiff %"PRId64" ", optimal);
 	} else {
-		optimal = lround(dsps * 50.0);
+		optimal = lround(dsps * 33.33);
 		LOGINFO("else mindiff %"PRId64" ", optimal);
 	}
 
