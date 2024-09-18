@@ -5654,7 +5654,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 
 	/* Check the difficulty every 240 seconds or as many shares as we
 	 * should have had in that time, whichever comes first. */
-	if (client->ssdc < 72 && tdiff < 240)
+	if (client->ssdc < 36 && tdiff < 120)
 		return;
 
 	if (diff != client->diff) {
