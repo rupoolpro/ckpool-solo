@@ -5662,7 +5662,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		return;
 	}
 
-	LOGINFO("VARDIFF ssdc: %d, bdiff: %s, bias: %.2f", client->ssdc, bdiff, bias);
+	// LOGINFO("VARDIFF ssdc: %d, bdiff: %s, bias: %.2f", client->ssdc, bdiff, bias);
 
 	/* Diff rate ratio */
 	dsps = client->dsps5 / bias;
