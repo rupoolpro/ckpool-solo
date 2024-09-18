@@ -5654,7 +5654,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 
 	/* Check the difficulty every 240 seconds or as many shares as we
 	 * should have had in that time, whichever comes first. */
-	if (client->ssdc < 36 && tdiff < 120)
+	if (client->ssdc < 18 && tdiff < 60)
 		return;
 
 	if (diff != client->diff) {
@@ -5667,7 +5667,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 	drr = dsps / (double)client->diff;
 
 	/* Optimal rate product is 0.3, allow some hysteresis. */
-	if (drr > 0.05 && drr < 0.1)
+	if (drr > 0.01 && drr < 0.05)
 		return;
 
 	/* Client suggest diff overrides worker mindiff */
