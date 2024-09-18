@@ -5654,13 +5654,15 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 
 	/* Check the difficulty every 240 seconds or as many shares as we
 	 * should have had in that time, whichever comes first. */
-	if (client->ssdc < 9 && tdiff < 30)
+	if (client->ssdc < 2 && tdiff < 60)
 		return;
 
 	if (diff != client->diff) {
 		client->ssdc = 0;
 		return;
 	}
+
+	LOGINFO("VARDIFF ssdc: %s, bdiff: %s, bias: %.2f", client->ssdc, bdiff, bias);
 
 	/* Diff rate ratio */
 	dsps = client->dsps5 / bias;
@@ -5682,6 +5684,9 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		optimal = lround(dsps * 15.0);
 		LOGINFO("if mindiff %"PRId64" ", optimal);
 	} else {
+		switch () {
+
+		}
 		optimal = lround(dsps * 33.33);
 		LOGINFO("else mindiff %"PRId64" ", optimal);
 	}
