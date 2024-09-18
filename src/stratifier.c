@@ -5677,12 +5677,12 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		mindiff = worker->mindiff;
 	/* Allow slightly lower diffs when users choose their own mindiff */
 	if (mindiff) {
-		if (drr < 0.05)
+		if (drr < 0.1)
 			return;
-		optimal = lround(dsps * 4.8);
+		optimal = lround(dsps * 15.0);
 		LOGINFO("if mindiff %"PRId64" ", optimal);
 	} else {
-		optimal = lround(dsps * 6.66);
+		optimal = lround(dsps * 25.0);
 		LOGINFO("else mindiff %"PRId64" ", optimal);
 	}
 
