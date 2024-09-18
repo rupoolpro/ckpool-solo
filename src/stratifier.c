@@ -5667,7 +5667,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 	drr = dsps / (double)client->diff;
 
 	/* Optimal rate product is 0.3, allow some hysteresis. */
-	if (drr > 0.15 && drr < 0.4)
+	if (drr > 0.05 && drr < 0.1)
 		return;
 
 	/* Client suggest diff overrides worker mindiff */
@@ -5677,11 +5677,11 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		mindiff = worker->mindiff;
 	/* Allow slightly lower diffs when users choose their own mindiff */
 	if (mindiff) {
-		if (drr < 0.5)
+		if (drr < 0.15)
 			return;
-		optimal = lround(dsps * 2.4);
+		optimal = lround(dsps * 4.8);
 	} else
-		optimal = lround(dsps * 3.33);
+		optimal = lround(dsps * 6.66);
 
 	/* Clamp to mindiff ~ network_diff */
 
