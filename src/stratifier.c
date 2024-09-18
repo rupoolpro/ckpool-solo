@@ -5596,7 +5596,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 {
 	sdata_t *ckp_sdata = ckp->sdata, *sdata = client->sdata;
 	worker_instance_t *worker = client->worker_instance;
-	double tdiff, bdiff, dsps, drr, network_diff, bias;
+	double tdiff, bdiff, dsps, drr, network_diff, bias, diff_coeff;
 	user_instance_t *user = client->user_instance;
 	int64_t next_blockid, optimal, mindiff;
 	tv_t now_t;
@@ -5666,36 +5666,30 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 	dsps = client->dsps5 / bias;
 	drr = dsps / (double)client->diff;
 
-	if (bias <= 0.1)
+		diff_coeff = (client->ssdc / tdiff) * 10;
+
+
+	if (diff_coeff > 2)
 	{
 		optimal = lround(client->diff * 4);
-	} else if (bias <= 0.2)
+	} else if (diff_coeff <= 2 && diff_coeff > 1.5)
 	{
 		optimal = lround(client->diff * 2);
-	} else if (bias <= 0.3)
-	{
-		optimal = lround(client->diff * 1.75);
-	} else if (bias <= 0.4)
+	} else if (diff_coeff <= 1.5 && diff_coeff > 1.25)
 	{
 		optimal = lround(client->diff * 1.5);
-	} else if (bias <= 0.5)
+	} else if (diff_coeff <= 1.25 && diff_coeff > 1.125)
 	{
 		optimal = lround(client->diff * 1.25);
-	} else if (bias <= 0.6)
+	} else if (diff_coeff <= 1.125 && diff_coeff > 1)
 	{
 		optimal = lround(client->diff * 1);
-	} else if (bias <= 0.7)
+	} else if (diff_coeff <= 1 && diff_coeff > 0.75)
 	{
 		optimal = lround(client->diff * 0.75);
-	} else if (bias <= 0.8)
+	} else if (diff_coeff <= 0.75)
 	{
 		optimal = lround(client->diff * 0.5);
-	} else if (bias <= 0.9)
-	{
-		optimal = lround(client->diff * 0.25);
-	} else
-	{
-		optimal = lround(client->diff * 0.125);
 	}
 
 	/* Clamp to mindiff ~ network_diff */
