@@ -5690,51 +5690,36 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 
 	mul = client->diff / 1024;
 
-	switch (bias)
+	if (bias <= 0.1)
 	{
-	case bias <= 0.1:
 		optimal = lround(client->diff * 4);
-		break;
-
-	case bias <= 0.2:
+	} else if (bias <= 0.2)
+	{
 		optimal = lround(client->diff * 2);
-		break;
-
-	case bias <= 0.3:
+	} else if (bias <= 0.3)
+	{
 		optimal = lround(client->diff * 1.75);
-		break;
-
-	case bias <= 0.4:
-	optimal = lround(client->diff * 1.5);
-	break;
-
-	case bias <= 0.5:
-	optimal = lround(client->diff * 1.25);
-	break;
-
-	case bias <= 0.6:
-	optimal = lround(client->diff * 1);
-	break;
-
-	case bias <= 0.7:
-	optimal = lround(client->diff * 0.75);
-	break;
-
-	case bias <= 0.8:
-	optimal = lround(client->diff * 0.5);
-	break;
-
-	case bias <= 0.9:
-	optimal = lround(client->diff * 0.25);
-	break;
-
-	case bias <= 1:
-	optimal = lround(client->diff * 0.125);
-	break;
-	
-	default:
-		LOGINFO("OOPS");
-		break;
+	} else if (bias <= 0.4)
+	{
+		optimal = lround(client->diff * 1.5);
+	} else if (bias <= 0.5)
+	{
+		optimal = lround(client->diff * 1.25);
+	} else if (bias <= 0.6)
+	{
+		optimal = lround(client->diff * 1);
+	} else if (bias <= 0.7)
+	{
+		optimal = lround(client->diff * 0.75);
+	} else if (bias <= 0.8)
+	{
+		optimal = lround(client->diff * 0.5);
+	} else if (bias <= 0.9)
+	{
+		optimal = lround(client->diff * 0.25);
+	} else
+	{
+		optimal = lround(client->diff * 0.125);
 	}
 
 	/* Clamp to mindiff ~ network_diff */
