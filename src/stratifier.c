@@ -5598,7 +5598,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 	worker_instance_t *worker = client->worker_instance;
 	double tdiff, bdiff, dsps, drr, network_diff, bias;
 	user_instance_t *user = client->user_instance;
-	int64_t next_blockid, optimal, mindiff;
+	int64_t next_blockid, optimal, mindiff, mul;
 	tv_t now_t;
 
 	mutex_lock(&ckp_sdata->uastats_lock);
@@ -5673,19 +5673,68 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		return;
 
 	/* Client suggest diff overrides worker mindiff */
-	if (client->suggest_diff)
+/*	if (client->suggest_diff)
 		mindiff = client->suggest_diff;
 	else
 		mindiff = worker->mindiff;
-	/* Allow slightly lower diffs when users choose their own mindiff */
+	/* Allow slightly lower diffs when users choose their own mindiff 
 	if (mindiff) {
 		if (drr < 0.1)
 			return;
 		optimal = lround(dsps * 15.0);
 		LOGINFO("if mindiff %"PRId64" ", optimal);
-	} else {
+	} else {*/
 		optimal = lround(dsps * 33.33);
 		LOGINFO("else mindiff %"PRId64" ", optimal);
+	/*}*/
+
+	mul = client->diff / 1024;
+
+	switch (bias)
+	{
+	case bias <= 0.1:
+		optimal = lround(client->diff * 4);
+		break;
+
+	case bias <= 0.2:
+		optimal = lround(client->diff * 2);
+		break;
+
+	case bias <= 0.3:
+		optimal = lround(client->diff * 1.75);
+		break;
+
+	case bias <= 0.4:
+	optimal = lround(client->diff * 1.5);
+	break;
+
+	case bias <= 0.5:
+	optimal = lround(client->diff * 1.25);
+	break;
+
+	case bias <= 0.6:
+	optimal = lround(client->diff * 1);
+	break;
+
+	case bias <= 0.7:
+	optimal = lround(client->diff * 0.75);
+	break;
+
+	case bias <= 0.8:
+	optimal = lround(client->diff * 0.5);
+	break;
+
+	case bias <= 0.9:
+	optimal = lround(client->diff * 0.25);
+	break;
+
+	case bias <= 1:
+	optimal = lround(client->diff * 0.125);
+	break;
+	
+	default:
+		LOGINFO("OOPS");
+		break;
 	}
 
 	/* Clamp to mindiff ~ network_diff */
