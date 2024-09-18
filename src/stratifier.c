@@ -5686,7 +5686,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		optimal = client->diff;
 	} else if (diff_coeff <= 0.75)
 	{
-		optimal = lround(client->diff * 0.5);
+		optimal = lround(client->diff * 0.875);
 	}
 
 	/* Clamp to mindiff ~ network_diff */
