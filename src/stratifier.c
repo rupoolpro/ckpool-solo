@@ -5681,12 +5681,9 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 	} else if (diff_coeff <= 1.25 && diff_coeff > 1.125)
 	{
 		optimal = lround(client->diff * 1.25);
-	} else if (diff_coeff <= 1.125 && diff_coeff > 1)
+	} else if (diff_coeff <= 1.125 && diff_coeff > 0.75)
 	{
-		optimal = lround(client->diff * 1);
-	} else if (diff_coeff <= 1 && diff_coeff > 0.75)
-	{
-		optimal = lround(client->diff * 0.75);
+		optimal = client->diff;
 	} else if (diff_coeff <= 0.75)
 	{
 		optimal = lround(client->diff * 0.5);
