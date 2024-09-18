@@ -5598,7 +5598,7 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 	worker_instance_t *worker = client->worker_instance;
 	double tdiff, bdiff, dsps, drr, network_diff, bias;
 	user_instance_t *user = client->user_instance;
-	int64_t next_blockid, optimal, mindiff, mul;
+	int64_t next_blockid, optimal, mindiff;
 	tv_t now_t;
 
 	mutex_lock(&ckp_sdata->uastats_lock);
@@ -5662,33 +5662,9 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		return;
 	}
 
-	// LOGINFO("VARDIFF ssdc: %d, bdiff: %s, bias: %.2f", client->ssdc, bdiff, bias);
-
 	/* Diff rate ratio */
 	dsps = client->dsps5 / bias;
 	drr = dsps / (double)client->diff;
-
-	/* Optimal rate product is 0.3, allow some hysteresis. */
-	if (drr > 0.01 && drr < 0.05)
-		return;
-
-	/* Client suggest diff overrides worker mindiff */
-/*	if (client->suggest_diff)
-		mindiff = client->suggest_diff;
-	else
-		mindiff = worker->mindiff;
-	/* Allow slightly lower diffs when users choose their own mindiff 
-	if (mindiff) {
-		if (drr < 0.1)
-			return;
-		optimal = lround(dsps * 15.0);
-		LOGINFO("if mindiff %"PRId64" ", optimal);
-	} else {*/
-		optimal = lround(dsps * 33.33);
-		LOGINFO("else mindiff %"PRId64" ", optimal);
-	/*}*/
-
-	mul = client->diff / 1024;
 
 	if (bias <= 0.1)
 	{
