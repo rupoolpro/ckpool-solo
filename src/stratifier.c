@@ -5677,11 +5677,13 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 		mindiff = worker->mindiff;
 	/* Allow slightly lower diffs when users choose their own mindiff */
 	if (mindiff) {
-		if (drr < 0.15)
+		if (drr < 0.05)
 			return;
 		optimal = lround(dsps * 4.8);
+		LOGINFO("if mindiff %"PRId64" ", optimal)
 	} else
 		optimal = lround(dsps * 6.66);
+		LOGINFO("else mindiff %"PRId64" ", optimal)
 
 	/* Clamp to mindiff ~ network_diff */
 
@@ -5714,8 +5716,8 @@ static void add_submit(ckpool_t *ckp, stratum_instance_t *client, const double d
 
 	client->ssdc = 0;
 
-	LOGINFO("Client %s biased dsps %.2f dsps %.2f drr %.2f adjust diff from %"PRId64" to: %"PRId64" ",
-		client->identity, dsps, client->dsps5, drr, client->diff, optimal);
+	LOGINFO("Client %s biased bias %.2f dsps %.2f dsps5 %.2f drr %.2f adjust diff from %"PRId64" to: %"PRId64" ",
+		client->identity, bias, dsps, client->dsps5, drr, client->diff, optimal);
 
 	copy_tv(&client->ldc, &now_t);
 	client->diff_change_job_id = next_blockid;
